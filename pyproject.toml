@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "secret-friends-tg-bot"
+version = "0.1.0"
+description = ""
+authors = ["wannasleep <wannasleeprightnowww@gmail.com>"]
+readme = "README.md"
+packages = [{include = "secret_friends_tg_bot"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[tool.poetry.group.lint.dependencies]
+flake8 = "^7.0.0"
+black = "^24.4.2"
+flake8-alphabetize = "^0.0.21"
+flake8-comprehensions = "^3.14.0"
+flake8-quotes = "^3.4.0"
+pep8-naming = "^0.13.3"
+flake8-import-order = "^0.18.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
