@@ -3,7 +3,7 @@ import uuid
 from sqlalchemy import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from db import Base
+from db.db import Base
 
 
 class RecommendationModel(Base):
@@ -14,6 +14,6 @@ class RecommendationModel(Base):
     )
     text: Mapped[str]
     recommendation_number: Mapped[int]
-    users: Mapped[list["UserModel"]] = relationship(
-        back_populates="recommendation"
-    )
+    # users: Mapped[list["UserModel"]] = relationship(
+    #     back_populates="recommendation"
+    # )

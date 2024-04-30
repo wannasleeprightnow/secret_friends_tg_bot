@@ -5,7 +5,7 @@ import uuid
 from sqlalchemy import BigInteger, UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from db import Base
+from db.db import Base
 
 
 class UserModel(Base):
@@ -21,6 +21,6 @@ class UserModel(Base):
     schedule: Mapped[Literal["everyday", "work_days", "weekday"]]
     notice_time: Mapped[datetime.time]
     recommendation_number: Mapped[int]
-    recommendations: Mapped[list["RecommendationModel"]] = relationship(
-        back_populates="users"
-    )
+    # recommendations: Mapped[list["RecommendationModel"]] = relationship(
+    #     back_populates="users"
+    # )

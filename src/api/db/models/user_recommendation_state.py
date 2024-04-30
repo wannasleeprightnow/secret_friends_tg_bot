@@ -5,7 +5,7 @@ import uuid
 from sqlalchemy import ForeignKey, UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from db import Base
+from db.db import Base
 
 
 class UserRecommendationStateModel(Base):
