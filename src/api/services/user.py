@@ -20,7 +20,7 @@ class UserService:
     async def register_user(self, user: UserRegister) -> UserModel:
 
         if (
-            await self.user_repository.get_one_by_telegram_id(user.t)
+            await self.user_repository.get_one_by_telegram_id(user.telegram_id)
             is not None
         ):
             raise UserAlreadyExists
