@@ -21,7 +21,7 @@ async def get_user_by_telegram_id(
     return await service.get_user_by_telegram_id(telegram_id)
 
 
-@router.post("/register", response_model=User, status_code=200)
+@router.post("/register", response_model=User, status_code=201)
 async def register_user(
     user: UserRegister = Body(), service: UserService = Depends(user_service)
 ):

@@ -20,7 +20,6 @@ class UserModel(Base):
     age: Mapped[str]
     schedule: Mapped[Literal["everyday", "work_days", "weekday"]]
     notice_time: Mapped[datetime.time]
-    recommendation_number: Mapped[int]
-    # recommendations: Mapped[list["RecommendationModel"]] = relationship(
-    #     back_populates="users"
-    # )
+    recommendations: Mapped[list["RecommendationModel"]] = relationship(
+        back_populates="users", secondary="associations"
+    )

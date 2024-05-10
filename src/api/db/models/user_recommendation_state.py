@@ -1,8 +1,7 @@
-from datetime import datetime
-from typing import Optional
+from typing import Literal, Optional
 import uuid
 
-from sqlalchemy import ForeignKey, UUID
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from db.db import Base
@@ -11,22 +10,15 @@ from db.db import Base
 class UserRecommendationStateModel(Base):
     __tablename__ = "associations"
 
-    id: Mapped[uuid.UUID] = mapped_column(
-        UUID(), primary_key=True, default=uuid.uuid4()
+    comment: Mapped[Optional[str]]
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), primary_key=True
     )
-    user_id: Mapped[Optional[uuid.UUID]] = mapped_column(
-        ForeignKey("users.id", ondelete="CASCADE")
+    recommendation_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("recommendations.id", ondelete="CASCADE"), primary_key=True
     )
-    recommendation_id: Mapped[Optional[uuid.UUID]] = mapped_column(
-        ForeignKey("recommendations.id", ondelete="CASCADE")
-    )
-    state_id: Mapped[Optional[uuid.UUID]] = mapped_column(
-        ForeignKey("states.id", ondelete="CASCADE")
-    )
-    user: Mapped["UserModel"] = relationship(
-        back_populates="recommendations", foreign_keys=[user_id]
-    )
+    state: Mapped[Literal["completed", "not_complete", "deffered", "viewed"]]
     recommendation: Mapped["RecommendationModel"] = relationship(
-        back_populates="users", foreign_keys=[recommendation_id]
+        foreign_keys=[recommendation_id],
+        order_by="RecommendationModel.recommendation_number.desc()",
     )
-    state: Mapped["StateModel"] = relationship(foreign_keys=[state_id])

@@ -17,12 +17,7 @@ class Base(DeclarativeBase):
         return " ".join(cols)
 
 
-DSN = f"postgresql+asyncpg://{database_settings.POSTGRES_USER}\
-:{database_settings.POSTGRES_PASSWORD}@\
-{database_settings.POSTGRES_HOST}:\
-{database_settings.POSTGRES_PORT}/\
-{database_settings.POSTGRES_DB}"
-async_engine = create_async_engine(DSN, echo=True)
+async_engine = create_async_engine(database_settings.postgres_dsn, echo=True)
 async_session_maker = async_sessionmaker(async_engine, expire_on_commit=False)
 
 

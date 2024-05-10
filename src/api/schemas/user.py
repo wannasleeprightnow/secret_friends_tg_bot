@@ -13,7 +13,6 @@ class User(BaseModel):
     age: str
     schedule: Literal["everyday", "work_days", "weekday"]
     notice_time: datetime.time
-    recommendation_number: int
 
 
 class UserRegister(BaseModel):
@@ -23,7 +22,6 @@ class UserRegister(BaseModel):
     age: str
     schedule: Literal["everyday", "work_days", "weekday"]
     notice_time: datetime.time
-    recommendation_number: int = 0
 
 
 class UserUpdateName(BaseModel):

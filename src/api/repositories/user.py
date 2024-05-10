@@ -1,8 +1,10 @@
 from typing import Optional
 
 from sqlalchemy import select, update
+from sqlalchemy.orm import joinedload
 
 from db.db import async_session_maker
+from db.models.recommendation import RecommendationModel
 from db.models.user import UserModel
 from utils.repository import Repository
 
@@ -33,3 +35,16 @@ class UserRepository(Repository):
             result = await session.execute(stmt)
             await session.commit()
             return result.scalar_one()
+
+    async def get_user_recommendations(
+        self, telegram_id: int
+    ) -> list[RecommendationModel]:
+        async with async_session_maker() as session:
+            query = (
+                select(UserModel)
+                .where(UserModel.telegram_id == telegram_id)
+                .options(joinedload(UserModel.recommendations))
+            )
+            result = await session.execute(query)
+            result = result.unique().scalars().one()
+            return result.recommendations

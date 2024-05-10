@@ -14,6 +14,6 @@ class RecommendationModel(Base):
     )
     text: Mapped[str]
     recommendation_number: Mapped[int]
-    # users: Mapped[list["UserModel"]] = relationship(
-    #     back_populates="recommendation"
-    # )
+    users: Mapped[list["UserModel"]] = relationship(
+        back_populates="recommendations", secondary="associations"
+    )
