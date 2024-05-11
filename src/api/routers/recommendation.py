@@ -10,7 +10,7 @@ from schemas.recommendation import (
 from services.recommendation import RecommendationService
 from services.user import UserService
 
-router = APIRouter(prefix="/recommendations", tags=["recommendations"])
+router = APIRouter(prefix="/recommendation", tags=["recommendations"])
 
 
 @router.post(

@@ -7,6 +7,7 @@ from schemas.user import (
     UserRegister,
     UserUpdateAge,
     UserUpdateName,
+    UserUpdateNoticeTime,
     UserUpdateSchedule,
     UserUpdateSex,
 )
@@ -39,6 +40,14 @@ async def update_name(
 @router.put("/update/schedule/", response_model=User, status_code=200)
 async def update_schedule(
     to_update: UserUpdateSchedule = Body(),
+    service: UserService = Depends(user_service),
+):
+    return await service.update_profile(to_update)
+
+
+@router.put("/update/notice_time/", response_model=User, status_code=200)
+async def update_notice_time(
+    to_update: UserUpdateNoticeTime = Body(),
     service: UserService = Depends(user_service),
 ):
     return await service.update_profile(to_update)

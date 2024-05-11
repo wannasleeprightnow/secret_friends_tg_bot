@@ -42,3 +42,8 @@ class UserUpdateAge(BaseModel):
 class UserUpdateSex(BaseModel):
     telegram_id: int
     sex: Optional[str]
+
+
+class UserUpdateNoticeTime(BaseModel):
+    telegram_id: int
+    notice_time: datetime.time

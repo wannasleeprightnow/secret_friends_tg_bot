@@ -28,7 +28,7 @@ class UserService:
 
         return await self.user_repository.insert_one(user.model_dump())
 
-    async def update_profile(self) -> UserModel:
+    async def update_profile(self, to_update) -> UserModel:
         to_update: dict = to_update.model_dump()
         telegram_id = to_update.pop("telegram_id")
         return await self.user_repository.update_profile(
