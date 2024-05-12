@@ -1,4 +1,6 @@
+import datetime
 from typing import Optional
+from uuid import UUID
 
 from sqlalchemy import select, update
 from sqlalchemy.orm import joinedload
@@ -48,3 +50,13 @@ class UserRepository(Repository):
             result = await session.execute(query)
             result = result.unique().scalars().one()
             return result.recommendations
+
+    async def get_user_with_current_notice_time(
+        self, notice_time: datetime.time
+    ) -> list[UUID]:
+        async with async_session_maker() as session:
+            query = select(self.model.id).where(
+                self.model.notice_time == notice_time
+            )
+            result = await session.execute(query)
+            return result.scalars().all()

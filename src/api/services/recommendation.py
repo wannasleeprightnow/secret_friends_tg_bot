@@ -3,6 +3,7 @@ from uuid import UUID
 from db.models.recommendation import RecommendationModel
 from repositories.recommendation import RecommendationRepository
 from schemas.recommendation import (
+    NotCompleteRecommendation,
     RecommendationWithState,
     SetState,
     UserRecommendationState,
@@ -57,3 +58,19 @@ class RecommendationService:
         await self.recommendation_repository.set_recommendation_state(
             **state.model_dump()
         )
+
+    async def get_not_complete_recommendations(self, user_id: UUID):
+        raw_recommendations = (
+            await self.recommendation_repository
+            .get_not_complete_recommendations(user_id)
+        )
+        recommendations = []
+        for rec in raw_recommendations:
+            recommendations.append(
+                NotCompleteRecommendation(
+                    recommendation_text=rec.recommendation.text,
+                    recommendation_number=rec.
+                    recommendation.recommendation_number,
+                )
+            )
+        return recommendations

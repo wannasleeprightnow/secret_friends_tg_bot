@@ -1,8 +1,11 @@
+from uuid import UUID
+
 from fastapi import APIRouter, Body, Depends, Query
 
 from routers.dependencies import recommendation_service, user_service
 from schemas.recommendation import (
     FirstRecommendation,
+    NotCompleteRecommendation,
     Recommendation,
     RecommendationWithState,
     SetState,
@@ -10,7 +13,7 @@ from schemas.recommendation import (
 from services.recommendation import RecommendationService
 from services.user import UserService
 
-router = APIRouter(prefix="/recommendation", tags=["recommendations"])
+router = APIRouter(prefix="/recommendation", tags=["recommendation"])
 
 
 @router.post(
@@ -62,7 +65,7 @@ async def get_recommendation_with_state(
     )
 
 
-@router.put("/set_state/", response_model=dict, status_code=200)
+@router.patch("/set_state", status_code=204)
 async def set_state(
     state: SetState = Body(),
     recommendation_service: RecommendationService = Depends(
@@ -70,4 +73,18 @@ async def set_state(
     ),
 ):
     await recommendation_service.set_recommendation_state(state)
-    return {"status": "successful"}
+
+
+@router.get(
+    "/not_complete/{user_id}",
+    response_model=list[NotCompleteRecommendation],
+    status_code=200)
+async def get_not_complete(
+    user_id: UUID,
+    recommendation_service: RecommendationService = Depends(
+        recommendation_service
+    ),
+):
+    return await recommendation_service.get_not_complete_recommendations(
+        user_id
+    )

@@ -1,3 +1,6 @@
+import datetime
+from uuid import UUID
+
 from db.models.user import UserModel
 from db.models.recommendation import RecommendationModel
 from repositories.user import UserRepository
@@ -28,9 +31,9 @@ class UserService:
 
         return await self.user_repository.insert_one(user.model_dump())
 
-    async def update_profile(self, to_update) -> UserModel:
-        to_update: dict = to_update.model_dump()
-        telegram_id = to_update.pop("telegram_id")
+    async def update_profile(
+        self, telegram_id: int, to_update: dict
+    ) -> UserModel:
         return await self.user_repository.update_profile(
             telegram_id, to_update
         )
@@ -54,3 +57,10 @@ class UserService:
             key=lambda x: x.recommendation_number,
             reverse=True,
         )[:3]
+
+    async def get_user_with_current_notice_time(
+        self, notice_time: datetime.time
+    ) -> list[UUID]:
+        return await self.user_repository.get_user_with_current_notice_time(
+            notice_time
+        )

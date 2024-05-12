@@ -29,6 +29,11 @@ class RecommendationWithState(BaseModel):
     recommendation_id: UUID
 
 
+class NotCompleteRecommendation(BaseModel):
+    recommendation_text: str
+    recommendation_number: int
+
+
 class SetState(BaseModel):
     comment: Optional[str]
     telegram_id: int

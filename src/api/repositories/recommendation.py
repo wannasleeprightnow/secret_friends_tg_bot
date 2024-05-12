@@ -1,7 +1,7 @@
 from uuid import UUID
 from typing import Optional
 
-from sqlalchemy import insert, select, update
+from sqlalchemy import and_, insert, select, update
 from sqlalchemy.orm import joinedload
 
 from db.db import async_session_maker
@@ -79,3 +79,20 @@ class RecommendationRepository(Repository):
             )
             await session.execute(stmt)
             await session.commit()
+
+    async def get_not_complete_recommendations(
+        self, user_id: UUID
+    ):
+        async with async_session_maker() as session:
+            query = (
+                select(UserRecommendationStateModel)
+                .where(and_(
+                    UserRecommendationStateModel.user_id == user_id,
+                    UserRecommendationStateModel.state == "not_complete"
+                ))
+                .options(
+                    joinedload(UserRecommendationStateModel.recommendation)
+                )
+            )
+            result = await session.execute(query)
+            return result.scalars().all()
