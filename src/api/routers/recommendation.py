@@ -78,7 +78,8 @@ async def set_state(
 @router.get(
     "/not_complete/{user_id}",
     response_model=list[NotCompleteRecommendation],
-    status_code=200)
+    status_code=200,
+)
 async def get_not_complete(
     user_id: UUID,
     recommendation_service: RecommendationService = Depends(

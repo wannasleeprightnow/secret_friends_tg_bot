@@ -80,11 +80,9 @@ async def update_sex(
 
 
 @router.get(
-    "/notice_time/{notice_time}",
-    response_model=list[UUID],
-    status_code=200)
+    "/notice_time/{notice_time}", response_model=list[UUID], status_code=200
+)
 async def get_user_with_current_notice_time(
-    notice_time: datetime.time,
-    service: UserService = Depends(user_service)
+    notice_time: datetime.time, service: UserService = Depends(user_service)
 ):
     return await service.get_user_with_current_notice_time(notice_time)

@@ -60,17 +60,15 @@ class RecommendationService:
         )
 
     async def get_not_complete_recommendations(self, user_id: UUID):
-        raw_recommendations = (
-            await self.recommendation_repository
-            .get_not_complete_recommendations(user_id)
+        raw_recommendations = await self.recommendation_repository.get_not_complete_recommendations(
+            user_id
         )
         recommendations = []
         for rec in raw_recommendations:
             recommendations.append(
                 NotCompleteRecommendation(
                     recommendation_text=rec.recommendation.text,
-                    recommendation_number=rec.
-                    recommendation.recommendation_number,
+                    recommendation_number=rec.recommendation.recommendation_number,
                 )
             )
         return recommendations
