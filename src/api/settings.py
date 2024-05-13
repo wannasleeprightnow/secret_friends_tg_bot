@@ -14,12 +14,6 @@ class DatabaseSettings(BaseSettings):
 {self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:\
 {self.POSTGRES_PORT}/{self.POSTGRES_DB}"
 
-    @property
-    def alembic_dsn(self):
-        return f"postgresql+psycopg://{self.POSTGRES_USER}:\
-{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:\
-{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
-
 
 class Settings(BaseSettings):
     api_prefix: str = "/api/v1"
