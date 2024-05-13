@@ -21,4 +21,6 @@ ENV PATH="${PATH}:${POETRY_VENV}/bin"
 
 RUN poetry install --with=dev
 
-CMD poetry run uvicorn main:app --host=127.0.0.1 --app-dir src/api/ --reload --port=8080
+RUN poetry run alembic upgrade head
+
+CMD poetry run uvicorn main:app --host=0.0.0.0 --app-dir src/api/ --reload --port=8080

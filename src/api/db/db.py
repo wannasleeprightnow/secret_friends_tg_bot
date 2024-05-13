@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import (
 )
 from sqlalchemy.orm import DeclarativeBase
 
-from settings import database_settings
+from settings import DatabaseSettings
 
 
 class Base(DeclarativeBase):
@@ -17,7 +17,7 @@ class Base(DeclarativeBase):
         return " ".join(cols)
 
 
-async_engine = create_async_engine(database_settings.postgres_dsn, echo=True)
+async_engine = create_async_engine(DatabaseSettings.POSTGRES_DSN, echo=True)
 async_session_maker = async_sessionmaker(async_engine, expire_on_commit=False)
 
 
