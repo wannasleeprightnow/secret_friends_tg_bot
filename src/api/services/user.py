@@ -61,6 +61,10 @@ class UserService:
     async def get_user_with_current_notice_time(
         self, notice_time: datetime.time
     ) -> list[UUID]:
+        if datetime.datetime.now().weekday() < 5:
+            days_of_week = ("everyday", "work_days")
+        else:
+            days_of_week = ("everyday", "weekday")
         return await self.user_repository.get_user_with_current_notice_time(
-            notice_time
+            notice_time, days_of_week
         )

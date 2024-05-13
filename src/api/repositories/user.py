@@ -2,7 +2,7 @@ import datetime
 from typing import Optional
 from uuid import UUID
 
-from sqlalchemy import select, update
+from sqlalchemy import and_, select, update
 from sqlalchemy.orm import joinedload
 
 from db.db import async_session_maker
@@ -52,11 +52,14 @@ class UserRepository(Repository):
             return result.recommendations
 
     async def get_user_with_current_notice_time(
-        self, notice_time: datetime.time
+        self, notice_time: datetime.time, days_of_week: str
     ) -> list[UUID]:
         async with async_session_maker() as session:
             query = select(self.model.id).where(
-                self.model.notice_time == notice_time
+                and_(
+                    self.model.notice_time == notice_time,
+                    self.model.schedule.in_(days_of_week),
+                )
             )
             result = await session.execute(query)
             return result.scalars().all()
