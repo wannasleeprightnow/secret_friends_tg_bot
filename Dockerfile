@@ -23,4 +23,4 @@ RUN poetry install --with=dev
 
 RUN poetry run alembic upgrade head
 
-CMD poetry run uvicorn main:app --host=0.0.0.0 --app-dir src/api/ --reload --port=8080
+CMD poetry run uvicorn main:app --host=0.0.0.0 --app-dir src/api/ --reload --port=0000
