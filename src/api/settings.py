@@ -1,21 +1,35 @@
-from dataclasses import dataclass
-from os import environ
-
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from dotenv import load_dotenv
 
 load_dotenv()
 
-POSTGRES_PORT: int = environ.get("POSTGRES_PORT")
-POSTGRES_USER: str = environ.get("POSTGRES_USER")
-POSTGRES_PASSWORD: str = environ.get("POSTGRES_PASSWORD")
-POSTGRES_DB: str = environ.get("POSTGRES_DB")
-POSTGRES_HOST: str = environ.get("POSTGRES_HOST")
-POSTGRES_DSN = f"postgresql+asyncpg://{POSTGRES_USER}:\
-{POSTGRES_PASSWORD}@{POSTGRES_HOST}:\
-{POSTGRES_PORT}/{POSTGRES_DB}"
+
+class DatabaseSettings(BaseSettings):
+    POSTGRES_PORT: int
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_DB: str
+    POSTGRES_HOST: str
+
+    @property
+    def postgres_dsn(self):
+        return f"postgresql+asyncpg://{self.POSTGRES_USER}:\
+{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:\
+{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+
+    @property
+    def alembic_dsn(self):
+        return f"postgresql+psycopg://{self.POSTGRES_USER}:\
+{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:\
+{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+
+    model_config = SettingsConfigDict(env_file=".env")
 
 
-@dataclass
-class Settings:
+class Settings(BaseSettings):
     api_prefix: str = "/api/v1"
-    ALLOWED_ORIGINS: str = "0.0.0.0"
+    ALLOWED_ORIGINS: str = "127.0.0.1"
+
+
+database_settings = DatabaseSettings()
+settings = Settings()

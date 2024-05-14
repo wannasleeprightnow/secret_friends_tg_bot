@@ -4,13 +4,7 @@ from sqlalchemy.ext.asyncio import (
 )
 from sqlalchemy.orm import DeclarativeBase
 
-from settings import (
-    POSTGRES_USER,
-    POSTGRES_PASSWORD,
-    POSTGRES_HOST,
-    POSTGRES_PORT,
-    POSTGRES_DB
-)
+from settings import database_settings
 
 
 class Base(DeclarativeBase):
@@ -23,7 +17,7 @@ class Base(DeclarativeBase):
         return " ".join(cols)
 
 
-async_engine = create_async_engine(f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}", echo=True)
+async_engine = create_async_engine(database_settings.postgres_dsn, echo=True)
 async_session_maker = async_sessionmaker(async_engine, expire_on_commit=False)
 
 
