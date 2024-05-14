@@ -5,7 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from settings import DatabaseSettings
+from settings import POSTGRES_PORT, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_HOST
 from db.db import Base
 from db.models.recommendation import RecommendationModel
 from db.models.user import UserModel
@@ -16,9 +16,12 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-config.set_main_option(
-    "sqlalchemy.url", DatabaseSettings.POSTGRES_DSN + "?async_fallback=True"
-)
+section = config.config_ini_section
+config.set_section_option(section, "POSTGRES_USER", POSTGRES_USER)
+config.set_section_option(section, "POSTGRES_PASSWORD", POSTGRES_PASSWORD)
+config.set_section_option(section, "POSTGRES_HOST", POSTGRES_HOST)
+config.set_section_option(section, "POSTGRES_PORT", POSTGRES_PORT)
+config.set_section_option(section, "POSTGRES_DB", POSTGRES_DB)
 
 target_metadata = Base.metadata
 

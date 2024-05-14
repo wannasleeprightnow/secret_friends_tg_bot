@@ -6,6 +6,12 @@ WORKDIR /code
 
 COPY . .
 
+ENV POSTGRES_PORT=5432
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=postgres
+ENV POSTGRES_DB=secret_friends_tg_bot
+ENV POSTGRES_HOST=127.0.0.1
+
 ENV POETRY_VERSION=1.7.1
 ENV POETRY_HOME=/opt/poetry
 ENV POETRY_VENV=/opt/poetry-venv
@@ -23,4 +29,4 @@ RUN poetry install --with=dev
 
 RUN poetry run alembic upgrade head
 
-CMD poetry run uvicorn main:app --host=0.0.0.0 --app-dir src/api/ --reload --port=0000
+CMD poetry run uvicorn main:app --host=0.0.0.0 --app-dir src/api/ --reload --port=8080
