@@ -1,11 +1,8 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
 class DatabaseSettings(BaseSettings):
-    POSTGRES_PORT: int
+    POSTGRES_PORT: int | str
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
